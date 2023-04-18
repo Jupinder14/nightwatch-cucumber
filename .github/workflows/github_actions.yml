@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.13.1]
+        node-version: [16x]
 
     steps:
       - uses: actions/checkout@v3
@@ -29,14 +29,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
       - name: Install dependencies
         run: |
-          - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-          - sudo sh -c 'echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-          - sudo apt-get update
-          - sudo apt-get install google-chrome-stable
-          - export CHROME_BIN=/usr/bin/google-chrome
-          - set -x && node -v && npm -v && google-chrome --version
           - npm install
       - name: Test
         run: |
