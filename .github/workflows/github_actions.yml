@@ -29,15 +29,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
       - name: Install dependencies
-        run: |
-          - npm install -g npm
-          - echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google.list
-          - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-          - set -x && apt-get update && apt-get install -y google-chrome-stable
-          - export CHROME_BIN=/usr/bin/google-chrome
-          - set -x && node -v && npm -v && google-chrome --version
-          - npm install
+        run: npm install
       - name: Test
-        run: |
-          - npm run test-e2e
+        run: npm run test-e2e
